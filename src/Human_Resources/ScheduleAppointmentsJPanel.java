@@ -25,6 +25,7 @@ public class ScheduleAppointmentsJPanel extends javax.swing.JPanel {
     public ScheduleAppointmentsJPanel() {
         initComponents();
         showdata();
+        jLabel10.setText(HR_Dashboard.hrid);
     }
     
     Connection Con = null;
@@ -57,6 +58,7 @@ public class ScheduleAppointmentsJPanel extends javax.swing.JPanel {
                 String[] row = {appointmentId,applicationID,applicantID,empID};
                 model.addRow(row);
             }
+            Con.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -269,13 +271,21 @@ public class ScheduleAppointmentsJPanel extends javax.swing.JPanel {
     private void scheduleAppointmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleAppointmentButtonActionPerformed
         // TODO add your handling code here:
         try{
+                        Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Final_Project","root","Ankita@22");
                         PreparedStatement add= Con.prepareStatement("Update Appointments_Dir Set AppointmentDate = ?, AppointmentTime=?,Location=? where AppointmentID = ?");
                         add.setString(1, jDateChooser1.getDate().toString());
                         add.setString(2, timeSlotComboBox.getSelectedItem().toString());
                         add.setString(3, locationTextField.getText());
                         add.setString(4, appointIDTextField.getText());
+                        add.executeUpdate();
                       
                         JOptionPane.showMessageDialog(this, "Appointment Scheduled Successfully");
+                        appointIDTextField.setText("");
+                        applicationIDTextField.setText("");
+                        applicantIDTextField.setText("");
+                        empIDTextField.setText("");
+                        locationTextField.setText("");
+                        
                         Con.close();
             
                 }

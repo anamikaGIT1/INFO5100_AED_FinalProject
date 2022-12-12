@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package University;
-
+import java.sql.*;
 import UserLogin.*;
+import LoginPackage.LoginPage;
 
 /**
  *
@@ -12,18 +13,36 @@ import UserLogin.*;
  */
 public class UniversityLandingP extends javax.swing.JFrame {
 
-    /**
-     * Creates new form UserLandingP
-     */
+    Connection Con = null;
+    
     public UniversityLandingP() {
         initComponents();
+        
     }
 
     public static String name = null;
+    public static String uniID = null;
+    
+    
     public void store_username(String user){
         name=user;
         jLabel5.setText(name);
+        try{
+            Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Final_Project","root","Ankita@22");
+            PreparedStatement show= Con.prepareStatement("select * from Uni_Dir where UniUser = '" + name + "'");
+            ResultSet Rs = show.executeQuery();
+            while (Rs.next()){
+                uniID=Rs.getString(1);
+                uniId.setText(uniID);
+            }
+            Con.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -34,6 +53,8 @@ public class UniversityLandingP extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        uniId = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         viewVeribtn = new javax.swing.JButton();
@@ -57,16 +78,24 @@ public class UniversityLandingP extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tamil MN", 0, 14)); // NOI18N
         jLabel5.setText("jLabel5");
 
+        jLabel6.setText("ID :");
+
+        uniId.setText("jLabel7");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(324, Short.MAX_VALUE)
+                .addGap(127, 127, 127)
                 .addComponent(jLabel2)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel5)
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(31, 31, 31)
+                .addComponent(uniId)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(180, 180, 180))
         );
@@ -74,10 +103,13 @@ public class UniversityLandingP extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel6)
+                        .addComponent(uniId)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -91,7 +123,7 @@ public class UniversityLandingP extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 562, Short.MAX_VALUE))
+                .addGap(0, 563, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(jPanel2);
@@ -186,7 +218,9 @@ public class UniversityLandingP extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLogoutActionPerformed
-        System.exit(0);
+        LoginPage LoginPage = new LoginPage();
+        LoginPage.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_userLogoutActionPerformed
 
     private void stuRecordsbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stuRecordsbtnActionPerformed
@@ -241,11 +275,13 @@ public class UniversityLandingP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JButton stuRecordsbtn;
+    private javax.swing.JLabel uniId;
     private javax.swing.JButton userLogout;
     private javax.swing.JButton viewVeribtn;
     // End of variables declaration//GEN-END:variables

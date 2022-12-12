@@ -3,8 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Human_Resources;
-
+import LoginPackage.LoginPage;
 import JobManagementPackage.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,7 +24,32 @@ public class HR_Dashboard extends javax.swing.JFrame {
      */
     public HR_Dashboard() {
         initComponents();
+        jLabel3.setText(hrid);
     }
+    
+    public static String name = null;
+    public static String hrid = null;
+    
+    public void store_username(String user){
+        name=user;
+        try{
+            Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Final_Project","root","Ankita@22");
+            PreparedStatement show= Con.prepareStatement("select * from HR_Dir where HRUser = '" + name + "'");
+            ResultSet Rs = show.executeQuery();
+            while (Rs.next()){
+                hrid=Rs.getString(1);
+            }
+            Con.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+    }
+    Connection Con = null;
+    Statement St = null;
+    ResultSet Rs = null;
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,6 +68,7 @@ public class HR_Dashboard extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,7 +82,7 @@ public class HR_Dashboard extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel2.setText("HR ID:");
 
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("hr id");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -92,10 +125,18 @@ public class HR_Dashboard extends javax.swing.JFrame {
         });
 
         jButton4.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        jButton4.setText("Employee Grievances");
+        jButton4.setText("Manage Employees");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jButton5.setText("Logout");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -108,7 +149,9 @@ public class HR_Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -117,9 +160,11 @@ public class HR_Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(222, 222, 222)
                 .addComponent(jButton3)
-                .addGap(42, 42, 42)
+                .addGap(18, 18, 18)
                 .addComponent(jButton4)
-                .addContainerGap(348, Short.MAX_VALUE))
+                .addGap(118, 118, 118)
+                .addComponent(jButton5)
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         jSplitPane2.setLeftComponent(jPanel3);
@@ -149,6 +194,12 @@ public class HR_Dashboard extends javax.swing.JFrame {
         HrGrievances hrGr = new HrGrievances();
         jSplitPane2.setRightComponent(hrGr);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        LoginPage LoginPage = new LoginPage();
+        LoginPage.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,6 +240,7 @@ public class HR_Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

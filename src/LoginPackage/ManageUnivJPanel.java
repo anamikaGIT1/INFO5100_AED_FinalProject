@@ -189,7 +189,7 @@ public class ManageUnivJPanel extends javax.swing.JPanel {
                 String[] row = {id,name};
                 model.addRow(row);
             }
-            Con.close();
+            
         }
         catch(Exception e){
             e.printStackTrace();
